@@ -12,6 +12,9 @@ import { MessageService } from './message.service'
 })
 
 export class HeroService {
+
+  private heroesUrl = 'api/heroes';
+
   deleteHero(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
 
@@ -41,7 +44,6 @@ export class HeroService {
     );
   }
 
-  private heroesUrl = 'api/heroes';
 
   constructor(
     private http: HttpClient,
@@ -84,8 +86,8 @@ export class HeroService {
     return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
       tap(
         x => x.length ?
-          this.log('found heroes matching "${term}"') :
-          this.log('no heroes matching "${term}"')
+          this.log(`found heroes matching "${term}"`) :
+          this.log(`no heroes matching "${term}"`)
       ),
       catchError(this.handleError<Hero[]>('searchHeroes', []))
     );
